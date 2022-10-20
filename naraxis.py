@@ -1,6 +1,6 @@
-import os, sys, colorama # colorama permet d'afficher des éléments en couleur sur l'invite de commande grace à Fore.COULEUR
+import os, sys, colorama
 from colorama import Fore,Style,Back
-from core.plate import sivSearch # on importe la classe -> from dossier.fichier import classe
+from core.plate import sivSearch
 
 mainMenu = """
  [1] Property Research
@@ -10,7 +10,7 @@ propertyMenu = """
  [1] Recherche SIV
  [b] Main Menu    [c] Clear Screen"""
 
-information = "["+Fore.BLUE+"#"+Fore.RESET+"]" # ça c'est un tag pour mettre [#] devant les messages que le programme envoi aux utilisateurs
+information = "["+Fore.BLUE+"#"+Fore.RESET+"]"
 def menu():
 
 	menu = r"""
@@ -42,7 +42,7 @@ try:
     while True:
         option = input("\n naraxis("+Fore.GREEN + "~" + Fore.RESET + ")$ ")
 
-        if option.lower() == 'b': # marche pas pour x raison (ça me casse les couilles)
+        if option.lower() == 'b':
             os.system('cls')
             menu()
             print(mainMenu)
@@ -60,8 +60,8 @@ try:
             while True:
                 if option == '1':
                     print("\n "+ information+" Veuillez entrer une plaque d'immatriculation.")
-                    siv=sivSearch(input("\n naraxis("+Fore.GREEN + "siv" + Fore.RESET + ")$ ")) # invocation de la classe et instanciation de l'objet
-                    print(siv.info()) # affichage des infos
+                    siv=sivSearch(input("\n naraxis("+Fore.GREEN + "siv" + Fore.RESET + ")$ "))
+                    print(siv.info())
 
-except KeyboardInterrupt: # ça veut dire ctrl+c
+except KeyboardInterrupt:
 	sys.exit("\n "+information+" Goodbye")

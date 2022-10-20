@@ -1,6 +1,6 @@
 import json, requests, colorama
 from colorama import Fore,Style,Back
-from bs4 import BeautifulSoup # BeautifulSoup permet de recuperer des éléments HTML (genre tu precise la classe et ça te recupère le texte)
+from bs4 import BeautifulSoup
 
 erreur = "["+Fore.RED+"X"+Fore.RESET+"]"
 
@@ -17,18 +17,12 @@ class sivSearch:
         self.res2: int = 0
 
     def scrapId(self):
-        """
-        Fonction retournant l'identifiant de la voiture sur la base SIV
-        """
         r=requests.get(self.url1 + self.plaque)
         self.idcar=json.loads(r.text)
         self.idcar=self.idcar['carId']
         return self.idcar
 
     def verif(self):
-        """
-        Fonction verifiant si la plaque est valide
-        """
         r=requests.get(self.url1 + self.plaque)
         cle=json.loads(r.text)
         if 'message' in cle:
@@ -44,28 +38,19 @@ class sivSearch:
         return self.res1, self.res2
 
     def scrapLink(self):
-        """
-        Fonction qui retourne le lien de la page contenant les informations sur la voiture
-        """
         r=requests.get(self.url2 + str(self.idcar))
         self.link=r.text
         return self.link
         
     def scrapElements(self):
-        """
-        Fonction qui recupère les élements relatifs à la voiture
-        """
-        r=requests.get(self.url3 + self.link) # on fait la requête sur l'adresse
-        soup = BeautifulSoup(r.text, 'html.parser') # on étudie le resultat de la requête (page web) grâce à BeautifulSoup
-        modele = soup.find('span',class_ ='bold').get_text() # on recupère l'élement span de class bold
-        motorisation = soup.find('span',class_ ='bold').next_sibling # on recupère l'élement suivant
-        annee = motorisation.find_next('span').contents[0] # on recupère le span suivant
-        return modele, motorisation, annee.strip() # .strip() parce que y'avais des espaces dégueulasses partout sinon
+        r=requests.get(self.url3 + self.link)
+        soup = BeautifulSoup(r.text, 'html.parser')
+        modele = soup.find('span',class_ ='bold').get_text()
+        motorisation = soup.find('span',class_ ='bold').next_sibling
+        annee = motorisation.find_next('span').contents[0]
+        return modele, motorisation, annee.strip()
 
     def info(self):
-        """
-        Fonction qui gère les différents cas de figures et qui renvoi le résultat au programme principal
-        """
         self.verif()
         if self.res1 == 2:
             return("\n "+erreur+' Cooldown, réessayez dans 30min.')
