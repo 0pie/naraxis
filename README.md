@@ -1,1 +1,3 @@
-I will do it a day... maybe
+work in progress
+
+approx 9% done (lmao)
